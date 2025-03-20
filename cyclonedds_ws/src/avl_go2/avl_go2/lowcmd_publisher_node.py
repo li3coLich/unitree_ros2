@@ -16,6 +16,8 @@ class LowCmdPublisher(Node):
             10                 # Queue size
         )
 
+        self.publisher_ = self.create_publisher(LowCmd, '/lowcmd', 10)
+
         self.motor_state_dtype = np.dtype([
             ('mode', np.uint8),
             ('q', np.float32),
@@ -34,23 +36,23 @@ class LowCmdPublisher(Node):
 
     def listener_callback(self, msg):
 
-        self.low_cmd.head[0] = 254
-        self.low_cmd.head[1] = 239
-        self.low_cmd.level_flag = 255
-        # print(msg.motor_cmd[0].reserve)
-        for i in range(self.num_motors):
-            # self.motor_cmd[i] = (msg.motor_cmd[i].mode, msg.motor_cmd[i].q, msg.motor_cmd[i].dq,
-            #                      msg.motor_cmd[i].tau, msg.motor_cmd[i].kp, msg.motor_cmd[i].kd, msg.motor_cmd[i].reserve)
-            self.low_cmd.motor_cmd[i].mode = msg.motor_cmd[i].mode
-            self.low_cmd.motor_cmd[i].q = msg.motor_cmd[i].q
-            self.low_cmd.motor_cmd[i].dq = msg.motor_cmd[i].dq
-            self.low_cmd.motor_cmd[i].tau = msg.motor_cmd[i].tau
-            self.low_cmd.motor_cmd[i].kp = msg.motor_cmd[i].kp
-            self.low_cmd.motor_cmd[i].kd = msg.motor_cmd[i].kd
-            self.low_cmd.motor_cmd[i].reserve = msg.motor_cmd[i].reserve
+        # self.low_cmd.head[0] = 254
+        # self.low_cmd.head[1] = 239
+        # self.low_cmd.level_flag = 255
+        # # print(msg.motor_cmd[0].reserve)
+        # for i in range(self.num_motors):
+        #     # self.motor_cmd[i] = (msg.motor_cmd[i].mode, msg.motor_cmd[i].q, msg.motor_cmd[i].dq,
+        #     #                      msg.motor_cmd[i].tau, msg.motor_cmd[i].kp, msg.motor_cmd[i].kd, msg.motor_cmd[i].reserve)
+        #     self.low_cmd.motor_cmd[i].mode = msg.motor_cmd[i].mode
+        #     self.low_cmd.motor_cmd[i].q = msg.motor_cmd[i].q
+        #     self.low_cmd.motor_cmd[i].dq = msg.motor_cmd[i].dq
+        #     self.low_cmd.motor_cmd[i].tau = msg.motor_cmd[i].tau
+        #     self.low_cmd.motor_cmd[i].kp = msg.motor_cmd[i].kp
+        #     self.low_cmd.motor_cmd[i].kd = msg.motor_cmd[i].kd
+        #     self.low_cmd.motor_cmd[i].reserve = msg.motor_cmd[i].reserve
 
-        self.low_cmd.crc = self.crc.Crc(self.low_cmd)
-        print(self.low_cmd.crc, msg.crc)
+        # self.low_cmd.crc = self.crc.Crc(self.low_cmd)
+        # print(self.low_cmd.crc, msg.crc)
         
 def main(args=None):
     rclpy.init(args=args)
